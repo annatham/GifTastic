@@ -1,65 +1,88 @@
 
-  // Example queryURL for Giphy API
-  var queryURL = "https://api.giphy.com/v1/gifs/trending?api_key=mvVlsyLAqUJwQYasHF5duopXShyoSo3d";
+// var apiKey = "mvVlsyLAqUJwQYasHF5duopXShyoSo3d";
 
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).then(function(response) {
-    console.log(response);
-  });
-
-  // search endpoint
-
-//javascript, jQuery
-
-  var xhr = $.get("http://api.giphy.com/v1/gifs/search?q=ryan+gosling&api_key=mvVlsyLAqUJwQYasHF5duopXShyoSo3d&limit=5");
-  xhr.done(function(data) { console.log("success got data", data); });
-
-  /////*** api key = mvVlsyLAqUJwQYasHF5duopXShyoSo3d ***/////
+  // $.ajax({
+  //   url: queryURL,
+  //   method: "GET"
+  // }).then(function(response) {
+  //   console.log(queryURL);
+  //   console.log(response);
+  // });
 
   // code to append data to page
 
-  var movies = ["The Matrix", "The Notebook", "Mr. Nobody", "The Lion King"];
+  var searchResults = ["kittens", "puppies", "funny"];
+
+  // displayMovieInfo function re-renders the HTML to display the appropriate content
+  function displaySearch() {
+
+    var searchID = $(this).attr("data-name");
+    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=mvVlsyLAqUJwQYasHF5duopXShyoSo3d&tag=" + searchID;
+
+    // Creating an AJAX call for the specific movie button being clicked
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response) {
+
+      // Creating a div to hold the movie
+      var searchDiv = $("<div>");
+
+      // Retrieving the URL for the image
+      var imgURL = response.data.image_original_url;
+
+      // Creating an element to hold the image
+      var image = $("<img>").attr("src", imgURL);
+
+      // Appending the image
+      searchDiv.append(image);
+
+      // Putting the entire movie above the previous movies
+      $("#search-view").prepend(searchDiv);
+    });
+
+  }
 
   // Function for displaying movie data
   function renderButtons() {
 
-    // Deleting the movie buttons prior to adding new movie buttons
-    // (this is necessary otherwise we will have repeat buttons)
-    $("#buttons-view").empty();
+    // Deleting the movies prior to adding new movies
+    // (this is necessary otherwise you will have repeat buttons)
+    $("#search-history").empty();
 
     // Looping through the array of movies
-    for (var i = 0; i < movies.length; i++) {
+    for (var i = 0; i < searchResults.length; i++) {
 
-      // Then dynamicaly generating buttons for each movie in the array.
-      // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
+      // Then dynamicaly generating buttons for each movie in the array
+      /* This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>) */
       var a = $("<button>");
-      // Adding a class
-      a.addClass("movie");
-      // Adding a data-attribute with a value of the movie at index i
-      a.attr("data-name", movies[i]);
-      // Providing the button's text with a value of the movie at index i
-      a.text(movies[i]);
-      // Adding the button to the HTML
-      $("#buttons-view").append(a);
+      // Adding a class of movie-btn to our button
+      a.addClass("search-btn");
+      // Adding a data-attribute
+      a.attr("data-name", searchResults[i]);
+      // Providing the initial button text
+      a.text(searchResults[i]);
+      // Adding the button to the buttons-view div
+      $("#search-result").append(a);
     }
   }
 
-  // This function handles events where one button is clicked
-  $("#add-movie").on("click", function(event) {
-    // event.preventDefault() prevents the form from trying to submit itself.
-    // We're using a form so that the user can hit enter instead of clicking the button if they want
+  // This function handles events where a movie button is clicked
+  $("#add-search").on("click", function(event) {
     event.preventDefault();
+    // This line grabs the input from the textbox
+    var searchID = $("#search-form").val().trim();
 
-    // This line will grab the text from the input box
-    var movie = $("#movie-input").val().trim();
-    // The movie from the textbox is then added to our array
-    movies.push(movie);
+    // Adding movie from the textbox to our array
+    searchResults.push(searchID);
 
-    // calling renderButtons which handles the processing of our movie array
+    // Calling renderButtons which handles the processing of our movie array
     renderButtons();
   });
 
-  // Calling the renderButtons function at least once to display the initial list of movies
+
+  // Adding a click event listener to all elements with a class of "movie-btn"
+  $(document).on("click", ".search-btn", displaySearch);
+
+  // Calling the renderButtons function to display the intial buttons
   renderButtons();

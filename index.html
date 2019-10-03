@@ -13,22 +13,27 @@
 <body>
     <div class="container">
 
-        <nav class="navbar navbar-dark bg-dark">
-                <a class="navbar-brand">Add animal here</a>
+        <nav class="navbar navbar-dark bg-dark text-light">
+                <a class="navbar-brand">GIFtastic</a>
                 <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-primary my-2 my-sm-4" type="submit">Search</button>
+                    <input class="form-control mr-sm-2" id="search-form" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-secondary my-2 my-sm-2" id="add-search" type="submit">Search</button>
                 </form>
         </nav>
 
         <div class="row">
           <div class="col">
             <!-- search images appear here -->
-            <p>hello</p>
+            <div id="search-result"></div>
+
+            <div id="search-view"></div>
+
+            
+
           </div>
           <div class="col">
             <!-- append searches here-->
-            <p>hello</p>
+            <div id="search-history">append results here</div>
 
           </div>
         </div>
