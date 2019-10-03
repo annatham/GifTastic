@@ -63,7 +63,7 @@
       // Providing the initial button text
       a.text(searchResults[i]);
       // Adding the button to the buttons-view div
-      $("#search-result").append(a);
+      $("#search-history").append(a);
     }
   }
 
