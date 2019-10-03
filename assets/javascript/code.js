@@ -11,7 +11,7 @@
 
   // code to append data to page
 
-  var searchResults = ["kittens", "puppies", "funny"];
+  var searchResults = ["kittens", "puppies", "funny", "sad", "happy dance"];
 
   // displayMovieInfo function re-renders the HTML to display the appropriate content
   function displaySearch() {
@@ -66,8 +66,7 @@
       $("#search-history").append(a);
     }
   }
-
-  // This function handles events where a movie button is clicked
+giovie button is clicked
   $("#add-search").on("click", function(event) {
     event.preventDefault();
     // This line grabs the input from the textbox
